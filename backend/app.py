@@ -4,28 +4,18 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-<<<<<<< HEAD
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app, resources={r"/chat": {"origins": "http://127.0.0.1:8080"}})
 
 # Load environment variables
 load_dotenv()
-=======
-app = Flask(__name__)
-CORS(app)
-
-
-load_dotenv()
-
->>>>>>> f6a2ac14fb56620a714d5c212080e237c45a8baf
 os.environ['GROCLAKE_API_KEY'] = os.getenv('GROCLAKE_API_KEY')
 os.environ['GROCLAKE_ACCOUNT_ID'] = os.getenv('GROCLAKE_ACCOUNT_ID')
 
 # Initialize ModelLake
 model_lake = ModelLake()
 
-<<<<<<< HEAD
 # Guru data
 GURUS = {
     "vashista": {
@@ -109,33 +99,6 @@ def chat():
         return jsonify({"response": response})
     except Exception as e:
         return jsonify({"response": f"An error occurred: {str(e)}"}), 500
-=======
-def get_response(user_input):
-    """Generates a spiritual response based on the user's query."""
-    try:
-        # Define the conversation context
-        conversation = [
-            {"role": "system", "content": "You are a spiritual guide well-versed in the Bhagavad Gita and the Yoga Sutras. Provide meaningful and thoughtful guidance to the user."},
-            {"role": "user", "content": user_input}
-        ]
-        
-        # Generate response
-        response = model_lake.chat_complete({"messages": conversation, "max_tokens": 3000})
-        return response.get('answer', "I'm sorry, I couldn't process that.")
-    
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
-
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.get_json()
-    user_message = data.get('message')
-    if not user_message:
-        return jsonify({"response": "I didn't receive any message."})
-
-    bot_reply = get_response(user_message)
-    return jsonify({"response": bot_reply})
->>>>>>> f6a2ac14fb56620a714d5c212080e237c45a8baf
 
 if __name__ == '__main__':
     app.run(debug=True)
